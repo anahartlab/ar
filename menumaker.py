@@ -30,6 +30,14 @@ if not os.path.isfile(index_path):
 with open(index_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
+# Удаляем любой существующий блок <section class="u-clearfix u-section-hero" ... </section> после </header>
+pattern = re.compile(r'(<section class="u-clearfix u-section-hero".*?</section>)', re.DOTALL)
+header_end_index = content.find('</header>')
+if header_end_index != -1:
+    after_header = content[header_end_index + len('</header>'):]
+    after_header = pattern.sub('', after_header)
+    content = content[:header_end_index + len('</header>')] + after_header
+
 # Секция AR примерки по шаблону, включая стили и сформированные карточки
 ar_section = f"""\
   <section class="u-clearfix u-section-hero" style="padding: 50px 0; text-align: center;">
@@ -37,12 +45,7 @@ ar_section = f"""\
 
     <div class="sections-grid">
 
-      <div class="section-card">
-        <a href="https://anahartlab.github.io/ar/{seo_url}.html">
-          <b>{name}</b>
-
-        </a>
-      </div>
+{cards_html}
   <style>
     .sections-grid {{
       display: flex;
