@@ -9,7 +9,7 @@
     content="Визионерское искусство, спецэффекты танца Света и Цвета. Иллюзия восприятия, обман зрения, иллюзион.">
   <title>wear</title>
   <link rel="stylesheet" href="nicepage.css" media="screen">
-  <link rel="stylesheet" href="wear.css" media="screen">
+  <link rel="stylesheet" href="index.css" media="screen">
   <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
   <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -122,104 +122,22 @@
       </nav>
     </div>
   </header>
+
   <section class="u-clearfix u-section-1" id="block-1" style="padding: 20px;">
-    <div class="u-sheet u-valign-middle u-sheet-1" style="max-width: 900px; margin: 0 auto;">
-      <h4 id="model-title" style="text-align: center; margin-bottom: 20px;">AR-примерка полотна</h4>
-
-      <div style="display:flex; gap:12px; justify-content:center; margin-bottom:14px; flex-wrap:wrap;" id="sizes"></div>
-
-      <model-viewer id="alchemy-viewer" alt="Флуоресцентное полотно ANAHART" ar ar-modes="scene-viewer quick-look webxr"
-        camera-controls style="width:100%; height:640px; background:#000; border-radius:8px; overflow:hidden;">
+    <div class="u-sheet u-valign-middle u-sheet-1" style="max-width: 700px; margin: 0 auto;">
+      <h4 style="text-align: center; margin-bottom: 30px;">AR-примерка полотна ARCHITECT 1 x 1 m </h4>
+      <model-viewer src="images/ARCHITECT.glb" ios-src="images/ARCHITECT.usdz" alt="architect"
+        ar ar-modes="scene-viewer quick-look webxr" camera-controls
+        style="width: 100%; height: 600px; background: #000;">
       </model-viewer>
-
-      <p style="text-align:center; margin-top:12px; font-size:13px; color:#ddd">Если модель не загружается — проверь
-        названия файлов в папке <code>images/ALCHEMY/</code>.</p>
     </div>
-
-    <script>
-      (function () {
-        const MODEL_NAME = 'ALCHEMY';
-        const FOLDER = 'images/ALCHEMY/';
-        const SIZES = [
-          { label: '50×75 см', glb: `${MODEL_NAME}_50x75.glb`, usdz: `${MODEL_NAME}_50x75.usdz` },
-          { label: '75×100 см', glb: `${MODEL_NAME}_75x100.glb`, usdz: `${MODEL_NAME}_75x100.usdz` },
-          { label: '100×150 см', glb: `${MODEL_NAME}_100x150.glb`, usdz: `${MODEL_NAME}_100x150.usdz` },
-          { label: '150×225 см', glb: `${MODEL_NAME}_150x225.glb`, usdz: `${MODEL_NAME}_150x225.usdz` }
-        ];
-
-        const viewer = document.getElementById('alchemy-viewer');
-        const sizesDiv = document.getElementById('sizes');
-        document.getElementById('model-title').textContent = `AR-примерка полотна ${MODEL_NAME}`;
-
-        async function fileExists(url) {
-          try {
-            const response = await fetch(url, { method: 'HEAD' });
-            return response.ok;
-          } catch {
-            return false;
-          }
-        }
-
-        (async function buildButtons() {
-          let firstSet = false;
-          for (const size of SIZES) {
-            const glbPath = FOLDER + size.glb;
-            const usdzPath = FOLDER + size.usdz;
-            const glbOk = await fileExists(glbPath);
-            const usdzOk = await fileExists(usdzPath);
-
-            if (!glbOk && !usdzOk) {
-              console.warn('Файлы отсутствуют для', size.label, glbPath, usdzPath);
-              continue;
-            }
-
-            const btn = document.createElement('button');
-            btn.textContent = size.label;
-            btn.style.padding = '8px 14px';
-            btn.style.border = 'none';
-            btn.style.borderRadius = '6px';
-            btn.style.background = '#333';
-            btn.style.color = '#fff';
-            btn.style.cursor = 'pointer';
-            btn.style.fontSize = '14px';
-
-            btn.addEventListener('click', () => {
-              Array.from(sizesDiv.querySelectorAll('button')).forEach(b => b.style.background = '#333');
-              btn.style.background = '#ff0099';
-
-              if (glbOk) {
-                viewer.src = glbPath;
-              } else if (usdzOk) {
-                viewer.src = usdzPath;
-              }
-
-              if (usdzOk) {
-                viewer.setAttribute('ios-src', usdzPath);
-              } else {
-                viewer.removeAttribute('ios-src');
-              }
-            });
-
-            sizesDiv.appendChild(btn);
-
-            if (!firstSet) {
-              btn.click();
-              firstSet = true;
-            }
-          }
-
-          if (!firstSet) {
-            const msg = document.createElement('div');
-            msg.textContent = 'Не найдено ни одной 3D-модели в папке images/ALCHEMY/. Загрузите файлы glb/usdz и обновите страницу.';
-            msg.style.color = '#f66';
-            msg.style.textAlign = 'center';
-            msg.style.marginTop = '12px';
-            sizesDiv.parentNode.insertBefore(msg, sizesDiv.nextSibling);
-          }
-        })();
-      })();
-    </script>
   </section>
+
+
+
+
+
+  
   <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer">
     <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xs u-sheet-1">
       <p class="u-small-text u-text u-text-variant u-text-1">

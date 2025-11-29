@@ -18,9 +18,18 @@ def slugify(text):
     return text
 
 
-# Читаем шаблон из файла index.html
+# Читаем шаблон из файла index.html полностью
 with open("index.html", "r", encoding="utf-8") as f:
-    template = f.read()
+    full_html = f.read()
+
+# Находим закрывающий тег </header>
+header_end = full_html.find("</header>")
+if header_end == -1:
+    raise ValueError("Не найден закрывающий тег </header> в index.html")
+
+# Разделяем html на до </header> и после
+before_header_close = full_html[: header_end + len("</header>")]
+after_header_close = full_html[header_end + len("</header>") :]
 
 csv_path = "paintings.csv"
 output_dir = "./"  # можно указать папку для выхода
@@ -30,26 +39,29 @@ with open(csv_path, newline="", encoding="utf-8") as csvfile:
     for row in reader:
         name = row["Name"].strip()
         size = row.get("Size", "").strip()
-
-        # Генерируем SEO-friendly URL из названия
         seo_name = slugify(name)
         output_filename = f"{seo_name}.html"
 
-        # Имя файлов моделей (предполагается, что они совпадают с Name)
-        model_glb = f"{name}.glb"
-        model_usdz = f"{name}.usdz"
+        # Формируем AR секцию с model-viewer
+        ar_section = f"""
 
-        # Заполняем шаблон данными
-        html_content = (
-            template.replace("{name}", name)
-            .replace("{size}", size)
-            .replace("{model_glb}", model_glb)
-            .replace("{model_usdz}", model_usdz)
-        )
+  <section class="u-clearfix u-section-1" id="block-1" style="padding: 20px;">
+    <div class="u-sheet u-valign-middle u-sheet-1" style="max-width: 700px; margin: 0 auto;">
+      <h4 style="text-align: center; margin-bottom: 30px;">AR-примерка полотна {name} {size} </h4>
+      <model-viewer src="images/{name}.glb" ios-src="images/{name}.usdz" alt="{seo_name}"
+        ar ar-modes="scene-viewer quick-look webxr" camera-controls
+        style="width: 100%; height: 600px; background: #000;">
+      </model-viewer>
+    </div>
+  </section>
+"""
+
+        # Вставляем AR секцию после </header>
+        page_html = before_header_close + ar_section + after_header_close
 
         # Записываем в файл
         with open(
             os.path.join(output_dir, output_filename), "w", encoding="utf-8"
         ) as f:
-            f.write(html_content)
+            f.write(page_html)
         print(f"Создан файл: {output_filename}")
