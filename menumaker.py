@@ -31,7 +31,7 @@ with open(index_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
 # Удаляем любой существующий блок <section class="u-clearfix u-section-hero" ... </section> после </header>
-pattern = re.compile(r'(<section class="u-clearfix u-section-hero".*?</section>)', re.DOTALL)
+pattern = re.compile(r'(<section *?</section>)', re.DOTALL)
 header_end_index = content.find('</header>')
 if header_end_index != -1:
     after_header = content[header_end_index + len('</header>'):]
