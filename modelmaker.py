@@ -52,6 +52,9 @@ with open(csv_path, newline="", encoding="utf-8") as csvfile:
         ar ar-modes="scene-viewer quick-look webxr" camera-controls
         style="width: 100%; height: 600px; background: #000;">
       </model-viewer>
+      <p style="text-align:center; font-size:14px; color:#ccc; margin-top:10px;">
+        Для корректного отображения используйте Google Chrome для Android либо Safari для iPhone.
+      </p>
     </div>
   </section>
 """
