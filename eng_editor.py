@@ -13,14 +13,20 @@ def process_file(path):
     with open(path, "r", encoding="utf-8") as f:
         txt = f.read()
 
-    # 1. simple replace
+    # 1. AR text replacement
     txt = txt.replace("AR-примерка полотна", "View in AR")
 
-    # 2. remove AR catalog block and replace with BACK button
-    pattern = re.compile(
-        r"Полотна в AR для примерки\..*?ARABIC STYLE",
-        re.S
+    # 2. main catalog title replacement
+    txt = txt.replace("Полотна в AR для примерки.", "View all tapestries in AR")
+
+    # 3. system/browser note replacement
+    txt = txt.replace(
+        "Для корректного отображения используйте Google Chrome для Android либо Safari для iPhone.",
+        "For correct display, use Google Chrome on Android or Safari on iPhone."
     )
+
+    # 4. replace block from catalog section to BACK button
+    pattern = re.compile(r"Полотна в AR для примерки\..*?ARABIC STYLE", re.S)
 
     back_button = '''
 <div style="margin:20px 0;">
@@ -40,52 +46,7 @@ def process_file(path):
 
     txt = pattern.sub(back_button, txt)
 
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(txt)
-
-    print(f"OK: {os.path.basename(path)}")
-
-
-def main():
-    folder = get_folder()
-
-    files = [
-        f for f in os.listdir(folder)
-        if f.startswith("eng_")
-        and f.endswith(".html")
-        and f != "eng_index.html"
-    ]
-
-    if not files:
-        print("No files found")
-        return
-
-    for f in files:
-        process_file(os.path.join(folder, f))
-
-
-if __name__ == "__main__":
-    main()
-#!/usr/bin/env python3
-# eng_editor.py
-
-import os
-import re
-
-
-def get_folder():
-    return os.path.dirname(os.path.abspath(__file__))
-
-
-def process_file(path):
-    with open(path, "r", encoding="utf-8") as f:
-        txt = f.read()
-
-    # 1. replace text
-    txt = txt.replace("Полотна в AR для примерки.", "View all tapestries in ART")
-
-    # 2. add eng_ prefix to html links (only if not already eng_)
-    # example: href="something.html" -> href="eng_something.html"
+    # 5. fix internal links to eng_
     def repl(match):
         url = match.group(1)
         if url.startswith("eng_"):
@@ -103,13 +64,20 @@ def process_file(path):
 def main():
     folder = get_folder()
 
-    file_path = os.path.join(folder, "eng_index.html")
+    files = [
+        f for f in os.listdir(folder)
+        if f.startswith("eng_")
+        and f.endswith(".html")
+        and f != "eng_index.html"
+        and os.path.isfile(os.path.join(folder, f))
+    ]
 
-    if not os.path.exists(file_path):
-        print("eng_index.html not found")
+    if not files:
+        print("No files found")
         return
 
-    process_file(file_path)
+    for f in files:
+        process_file(os.path.join(folder, f))
 
 
 if __name__ == "__main__":
