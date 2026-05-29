@@ -66,3 +66,51 @@ def main():
 
 if __name__ == "__main__":
     main()
+#!/usr/bin/env python3
+# eng_editor.py
+
+import os
+import re
+
+
+def get_folder():
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+def process_file(path):
+    with open(path, "r", encoding="utf-8") as f:
+        txt = f.read()
+
+    # 1. replace text
+    txt = txt.replace("Полотна в AR для примерки.", "View all tapestries in ART")
+
+    # 2. add eng_ prefix to html links (only if not already eng_)
+    # example: href="something.html" -> href="eng_something.html"
+    def repl(match):
+        url = match.group(1)
+        if url.startswith("eng_"):
+            return match.group(0)
+        return f'href="eng_{url}"'
+
+    txt = re.sub(r'href="([^"]+\.html)"', repl, txt)
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(txt)
+
+    print(f"OK: {os.path.basename(path)}")
+
+
+def main():
+    folder = get_folder()
+
+    file_path = os.path.join(folder, "eng_index.html")
+
+    if not os.path.exists(file_path):
+        print("eng_index.html not found")
+        return
+
+    process_file(file_path)
+
+
+if __name__ == "__main__":
+    main()
