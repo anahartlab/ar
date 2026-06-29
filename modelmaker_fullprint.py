@@ -21,7 +21,7 @@ if header_end == -1:
 before_header_close = full_html[: header_end + len("</header>")]
 after_header_close = full_html[header_end + len("</header>") :]
 
-output_dir = "./"
+output_dir = script_dir
 output_filename = f"{SEO_NAME}.html"
 
 # Формируем AR секцию с model-viewer
