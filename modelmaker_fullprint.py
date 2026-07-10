@@ -17,9 +17,16 @@ header_end = full_html.find("</header>")
 if header_end == -1:
     raise ValueError("Не найден закрывающий тег </header> в index.html")
 
-# Разделяем html на до </header> и после
+# Оставляем всё до </header>
 before_header_close = full_html[: header_end + len("</header>")]
-after_header_close = full_html[header_end + len("</header>") :]
+
+# Находим открывающий тег <footer
+footer_start = full_html.find("<footer", header_end)
+if footer_start == -1:
+    raise ValueError("Не найден тег <footer> в index.html")
+
+# Оставляем footer и всё после него
+after_footer = full_html[footer_start:]
 
 output_dir = script_dir
 output_filename = f"{SEO_NAME}.html"
@@ -30,7 +37,7 @@ ar_section = f"""
 <section class="u-clearfix u-section-1" id="block-1" style="padding: 20px;">
   <div class="u-sheet u-valign-middle u-sheet-1" style="max-width: 700px; margin: 0 auto;">
     <h4 style="text-align: center; margin-bottom: 30px;">
-      AR-примерка полотна {NAME} {SIZE}
+      3D/AR MODEL {NAME} {SIZE}
     </h4>
 
     <model-viewer
@@ -50,8 +57,9 @@ ar_section = f"""
 </section>
 """
 
-# Вставляем AR секцию после </header>
-page_html = before_header_close + ar_section + after_header_close
+# Полностью очищаем содержимое между </header> и <footer>
+# и вставляем новую AR-секцию
+page_html = before_header_close + ar_section + after_footer
 
 # Записываем файл
 with open(os.path.join(output_dir, output_filename), "w", encoding="utf-8") as f:
