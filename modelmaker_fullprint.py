@@ -1,8 +1,8 @@
 import os
 
 # ===== Настройки =====
-NAME = "fullprint_cosmic_pizza"
-SEO_NAME = "fh-comic-pizza"
+NAME = "fullprint_purple_buddha"
+SEO_NAME = NAME
 SIZE = ""  # или оставь пустую строку ""
 # =====================
 
@@ -34,8 +34,8 @@ ar_section = f"""
     </h4>
 
     <model-viewer
-      src="images/{NAME}.glb"
-      ios-src="images/{NAME}.usdz"
+      src="images/FULLPRINT/{NAME}.glb"
+      ios-src="images/FULLPRINT/{NAME}.usdz"
       alt="{SEO_NAME}"
       ar
       ar-modes="scene-viewer quick-look webxr"
