@@ -1,7 +1,7 @@
 import os
 
 # ===== Настройки =====
-NAME = "fullprint_mystery_owls"
+NAME = "fullprint_dark_forest"
 SEO_NAME = NAME
 SIZE = ""  # или оставь пустую строку ""
 # =====================
