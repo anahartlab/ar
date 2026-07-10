@@ -1,7 +1,7 @@
 import os
 
 # ===== Настройки =====
-NAME = "fullprint_purple_buddha"
+NAME = "fullprint_slavic"
 SEO_NAME = NAME
 SIZE = ""  # или оставь пустую строку ""
 # =====================
