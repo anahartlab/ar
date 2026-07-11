@@ -1,7 +1,7 @@
 import os
 
 # ===== Настройки =====
-NAME = "fullprint_durga_ma"
+NAME = "fullprint_hexagon"
 SEO_NAME = NAME
 SIZE = ""  # или оставь пустую строку ""
 # =====================
