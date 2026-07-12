@@ -1,7 +1,7 @@
 import os
 
 # ===== Настройки =====
-NAME = "fullprint_liberty_cap"
+NAME = "fullprint_power_of_life"
 SEO_NAME = NAME
 SIZE = ""  # или оставь пустую строку ""
 # =====================
